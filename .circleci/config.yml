@@ -34,7 +34,7 @@ jobs:
             docker tag udagram-reverseproxy oriental/udagram-reverseproxy:v1
 
             echo "-------- All images succesfully built----------"
-            echo " ------- login in to hub--------"
+            echo "-------- Login in to docker hub----------------"
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             echo "-------------- Pushing images to dockerhub-------"
 
