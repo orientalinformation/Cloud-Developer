@@ -19,7 +19,7 @@ spec:
       #     configMap:
       #       name: env-config
       containers:
-      - image: slashflea/udagram-api-feed:v1
+      - image: oriental/udagram-api-feed:v1
         name: backend-feed
         ports:
         - containerPort: 80 
