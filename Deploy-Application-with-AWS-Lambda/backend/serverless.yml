@@ -1,6 +1,6 @@
 org: orientaltran
-app: serverless-todo-app
-service: serverless-todo-app
+app: serverless-todo-app-v1
+service: serverless-todo-app-v1
 frameworkVersion: '3'
 
 plugins:
@@ -35,7 +35,7 @@ provider:
   environment:
     TODOS_TABLE: todo-app-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    ATTACHMENT_S3_BUCKET: todo-app-images-${self:provider.stage}
+    ATTACHMENT_S3_BUCKET: todo-app-images-v1-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
     PROJECT_NAME: "todo-app"
     INDEX_NAME: ${self:provider.environment.TODOS_CREATED_AT_INDEX}
