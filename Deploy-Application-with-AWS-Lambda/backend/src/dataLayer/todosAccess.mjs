@@ -51,7 +51,7 @@ export class TodosAccess {
     }
 
     // update Todo
-    async updateTodo(userId, toDoId, updateToDoRequest) {
+    async updateTodo(userId, todoId, updateToDoRequest) {
         logger.info("Call function updateTodo");
 
         try {
@@ -59,7 +59,7 @@ export class TodosAccess {
                 TableName: this.todosTable,
                 Key: {
                     userId,
-                    toDoId,
+                    todoId,
                 },
                 UpdateExpression:
                     "set #name = :name, #dueDate = :dueDate, #done = :done",
