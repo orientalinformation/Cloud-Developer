@@ -75,11 +75,10 @@ export class TodosAccess {
                 },
                 ReturnValues: "UPDATED_NEW",
             })
-            .promise();
 
-            return updateToDoRequest;
+            return updateToDoRequest
         } catch (e) {
-            return "Error";
+            return "Error"
         }
     }
 
