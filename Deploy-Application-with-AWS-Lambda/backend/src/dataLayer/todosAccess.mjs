@@ -83,7 +83,7 @@ export class TodosAccess {
     }
 
     // Delete Todo
-    async deteteTodo(userId, toDoId) {
+    async deteteTodo(userId, todoId) {
         logger.info("Call function deleteTodo");
 
         try {
@@ -91,7 +91,7 @@ export class TodosAccess {
                 TableName: this.todosTable,
                 Key: {
                     userId,
-                    toDoId,
+                    todoId,
                 },
             })
 

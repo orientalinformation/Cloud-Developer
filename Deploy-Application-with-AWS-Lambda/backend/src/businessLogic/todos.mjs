@@ -43,10 +43,10 @@ export async function updateTodo(userId, toDoId, updateToDoRequest) {
 
 
 // Delete todo
-export async function deleteTodo(userId, toDoId) {
+export async function deleteTodo(userId, todoId) {
     logger.info("Call function delete todo");
 
-    return await todosAccess.deteteTodo(userId, toDoId);
+    return await todosAccess.deteteTodo(userId, todoId);
 }
 
 // General updateAttachmentPresignedUrl
