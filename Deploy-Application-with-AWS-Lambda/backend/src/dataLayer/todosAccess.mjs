@@ -46,9 +46,8 @@ export class TodosAccess {
             TableName: this.todosTable,
             Item: todo,
         })
-        .promise();
 
-        return todo;
+        return todo
     }
 
     // update Todo

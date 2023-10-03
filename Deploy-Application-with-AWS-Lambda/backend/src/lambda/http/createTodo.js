@@ -15,9 +15,7 @@ export const handler = middy()
     console.log('Processing event: ', event)
 
     const newTodo = JSON.parse(event.body)
-
-    const authorization = event.headers.Authorization
-    const userId = getUserId(authorization)
+    const userId = getUserId(event)
 
     const newItem = await createTodo(newTodo, userId)
 
