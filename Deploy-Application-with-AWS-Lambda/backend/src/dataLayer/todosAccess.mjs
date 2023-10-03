@@ -76,9 +76,9 @@ export class TodosAccess {
                 ReturnValues: "UPDATED_NEW",
             })
 
-            return updateToDoRequest
+            return "Update success."
         } catch (e) {
-            return "Error"
+            return "Update error"
         }
     }
 
@@ -94,11 +94,10 @@ export class TodosAccess {
                     toDoId,
                 },
             })
-            .promise();
 
-            return "Success";
+            return "Delete success"
         } catch (e) {
-            return "Error";
+            return "Delete error"
         }
     }
 
@@ -126,12 +125,11 @@ export class TodosAccess {
                 },
                 ReturnValues: "UPDATED_NEW",
             })
-            .promise();
 
-            return uploadUrl;
+            return uploadUrl
             
         } catch (e) {
-            return "Error";
+            return "Error"
         }
     }
 }
