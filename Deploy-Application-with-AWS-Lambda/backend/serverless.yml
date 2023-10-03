@@ -65,7 +65,7 @@ functions:
           method: get
           path: todos
           cors: true
-          authorizer: Auth
+          #authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -88,7 +88,7 @@ functions:
           method: post
           path: todos
           cors: true
-          authorizer: Auth
+          #authorizer: Auth
           request:
             schemas:
               'application/json': ${file(model/create-todo-model.json)}
@@ -110,7 +110,7 @@ functions:
           method: patch
           path: todos/{todoId}
           cors: true
-          authorizer: Auth
+          #authorizer: Auth
           documentation:
             summary: Update a new todo
             description: Update a new todo
@@ -136,7 +136,7 @@ functions:
           method: delete
           path: todos/{todoId}
           cors: true
-          authorizer: Auth
+          #authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -156,7 +156,7 @@ functions:
           method: post
           path: todos/{todoId}/attachment
           cors: true
-          authorizer: Auth
+          #authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action:

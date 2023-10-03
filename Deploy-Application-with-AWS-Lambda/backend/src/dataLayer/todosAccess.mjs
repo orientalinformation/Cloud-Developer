@@ -1,6 +1,5 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb'
-import AWSXRay from 'aws-xray-sdk-core'
 import { createLogger } from '../utils/logger.mjs'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
@@ -10,17 +9,16 @@ const url_expiration = process.env.SIGNED_URL_EXPIRATION;
 
 export class TodosAccess {
     constructor(
-        documentClient = AWSXRay.captureAWSv3Client(new DynamoDB()),
+        dynamoDbClient = DynamoDBDocument.from(new DynamoDB()),
         S3 = new S3Client(),
         todosTable = process.env.TODOS_TABLE,
         todosIndex = process.env.TODOS_CREATED_AT_INDEX,
         s3_bucket_name = process.env.ATTACHMENT_S3_BUCKET
     ) {
-        this.documentClient = documentClient
-        this.S3 = S3;
+        this.dynamoDbClient = dynamoDbClient
+        this.S3 = S3
         this.todosTable = todosTable
         this.todosIndex = todosIndex
-        this.dynamoDbClient = DynamoDBDocument.from(this.documentClient)
         this.bucket_name = s3_bucket_name
     }
 
@@ -32,11 +30,10 @@ export class TodosAccess {
             TableName: this.todosTable,
             IndexName: this.todosIndex,
             KeyConditionExpression: "userId = :userId",
-            ExpressionAttributeValues: {
-            ":userId": userId,
-            },
+             ExpressionAttributeValues: {
+            ":userId": userId
+            }
         })
-        .promise();
 
         return result.Items
     }
