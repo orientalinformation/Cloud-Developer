@@ -8,7 +8,7 @@ export class AttachmentUtils {
         this.bucket_name = bucket_name
     }
 
-    getAttachmentUrl(toDoId) {
-        return "https://" + this.bucket_name + ".s3.amazoneaws.com/" + toDoId;
+    getAttachmentUrl(todoId) {
+        return "https://" + this.bucket_name + ".s3.amazoneaws.com/" + todoId;
     }
 }

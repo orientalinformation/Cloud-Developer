@@ -118,7 +118,7 @@ export class TodosAccess {
             })
 
             const url = await getSignedUrl(this.S3, command, {
-                expiresIn: Number(url_expiration)
+                expiresIn: parseInt(url_expiration)
             })
 
             await this.dynamoDbClient
