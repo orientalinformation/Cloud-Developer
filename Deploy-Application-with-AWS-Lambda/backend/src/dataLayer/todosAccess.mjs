@@ -113,7 +113,7 @@ export class TodosAccess {
             //Expires: Number(url_expiration),
             //});
             const command = new PutObjectCommand({
-                Bucket: bucketName,
+                Bucket: this.bucket_name,
                 Key: todoId
             })
 
