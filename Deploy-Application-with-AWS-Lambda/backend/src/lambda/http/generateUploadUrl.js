@@ -16,8 +16,7 @@ export const handler = middy()
     console.log('Processing event: ', event)
 
     const todoId = event.pathParameters.todoId
-    const authorization = event.headers.Authorization
-    const userId = getUserId(authorization)
+    const userId = getUserId(event)
 
     const url = await updateAttachmentPresignedUrl(userId, todoId)
 

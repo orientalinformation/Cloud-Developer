@@ -50,8 +50,8 @@ export async function deleteTodo(userId, todoId) {
 }
 
 // General updateAttachmentPresignedUrl
-export async function updateAttachmentPresignedUrl(userId, toDoId) {
+export async function updateAttachmentPresignedUrl(userId, todoId) {
     logger.info("Call function updateAttachmentPresignedUrl");
 
-    return await todosAccess.updateAttachmentPresignedUrl(userId, toDoId);
+    return await todosAccess.updateAttachmentPresignedUrl(userId, todoId);
 }

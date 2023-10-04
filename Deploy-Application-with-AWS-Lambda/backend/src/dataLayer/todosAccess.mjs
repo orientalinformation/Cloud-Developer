@@ -102,26 +102,26 @@ export class TodosAccess {
     }
 
     // Update updateAttachmentPresignedUrl
-    async updateAttachmentPresignedUrl(userId, toDoId) {
+    async updateAttachmentPresignedUrl(userId, todoId) {
         logger.info("Call function updateAttachmentPresignedUrl");
 
         try {
 
             const uploadUrl = this.S3.getSignedUrl("putObject", {
                 Bucket: this.bucket_name,
-                Key: toDoId,
+                Key: todoId,
                 Expires: Number(url_expiration),
             });
             await this.dynamoDbClient
             .update({
                 TableName: this.todosTable,
                 Key: {
-                userId,
-                toDoId,
+                  userId,
+                  todoId,
                 },
                 UpdateExpression: "set attachmentUrl = :URL",
                 ExpressionAttributeValues: {
-                ":URL": uploadUrl.split("?")[0],
+                   ":URL": uploadUrl.split("?")[0],
                 },
                 ReturnValues: "UPDATED_NEW",
             })
