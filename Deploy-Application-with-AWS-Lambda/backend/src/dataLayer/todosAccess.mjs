@@ -107,11 +107,20 @@ export class TodosAccess {
 
         try {
 
-            const uploadUrl = this.S3.getSignedUrl("putObject", {
-                Bucket: this.bucket_name,
-                Key: todoId,
-                Expires: Number(url_expiration),
-            });
+            //const uploadUrl = this.S3.getSignedUrl("putObject", {
+              //  Bucket: this.bucket_name,
+                //Key: todoId,
+                //Expires: Number(url_expiration),
+            //});
+            const command = new PutObjectCommand({
+             Bucket: bucketName,
+             Key: todoId
+             })
+
+             const url = await getSignedUrl(s3, command, {
+                  expiresIn: Number(url_expiration)
+               })
+
             await this.dynamoDbClient
             .update({
                 TableName: this.todosTable,
@@ -121,12 +130,12 @@ export class TodosAccess {
                 },
                 UpdateExpression: "set attachmentUrl = :URL",
                 ExpressionAttributeValues: {
-                   ":URL": uploadUrl.split("?")[0],
+                   ":URL": url,
                 },
                 ReturnValues: "UPDATED_NEW",
             })
 
-            return uploadUrl
+            return url
             
         } catch (e) {
             return "Error"
