@@ -91,10 +91,10 @@ functions:
           path: todos
           cors: true
           authorizer: Auth
-          reqValidatorName: RequestBodyValidator
           request:
             schemas:
               'application/json': ${file(model/create-todo-model.json)}
+          reqValidatorName: RequestBodyValidator
     iamRoleStatements:
       - Effect: Allow
         Action:
