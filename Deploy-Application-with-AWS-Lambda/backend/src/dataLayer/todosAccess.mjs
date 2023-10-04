@@ -30,8 +30,8 @@ export class TodosAccess {
             TableName: this.todosTable,
             IndexName: this.todosIndex,
             KeyConditionExpression: "userId = :userId",
-             ExpressionAttributeValues: {
-            ":userId": userId
+            ExpressionAttributeValues: {
+                ":userId": userId
             }
         })
 
@@ -108,35 +108,35 @@ export class TodosAccess {
         try {
 
             //const uploadUrl = this.S3.getSignedUrl("putObject", {
-              //  Bucket: this.bucket_name,
-                //Key: todoId,
-                //Expires: Number(url_expiration),
+            //  Bucket: this.bucket_name,
+            //Key: todoId,
+            //Expires: Number(url_expiration),
             //});
             const command = new PutObjectCommand({
-             Bucket: bucketName,
-             Key: todoId
-             })
-
-             const url = await getSignedUrl(s3, command, {
-                  expiresIn: Number(url_expiration)
-               })
-
-            await this.dynamoDbClient
-            .update({
-                TableName: this.todosTable,
-                Key: {
-                  userId,
-                  todoId,
-                },
-                UpdateExpression: "set attachmentUrl = :URL",
-                ExpressionAttributeValues: {
-                   ":URL": url,
-                },
-                ReturnValues: "UPDATED_NEW",
+                Bucket: bucketName,
+                Key: todoId
             })
 
+            const url = await getSignedUrl(this.S3, command, {
+                expiresIn: Number(url_expiration)
+            })
+
+            await this.dynamoDbClient
+                .update({
+                    TableName: this.todosTable,
+                    Key: {
+                        userId,
+                        todoId,
+                    },
+                    UpdateExpression: "set attachmentUrl = :URL",
+                    ExpressionAttributeValues: {
+                        ":URL": url,
+                    },
+                    ReturnValues: "UPDATED_NEW",
+                })
+
             return url
-            
+
         } catch (e) {
             return "Error"
         }
