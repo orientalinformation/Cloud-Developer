@@ -143,7 +143,7 @@ export class TodosAccess {
             // return url
 
             const uploadUrl = await getSignedUrl("putObject", {
-                Bucket: this.bucket,
+                Bucket: this.bucket_name,
                 Key: todoId,
                 Expires: parseInt(url_expiration)
             });
