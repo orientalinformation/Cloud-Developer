@@ -18,11 +18,11 @@ export async function getTodosForUser(userId) {
 export async function createTodo(createTodoRequest, userId) {
     logger.info("Call function create todo");
 
-    const toDoId = uuid.v4()
+    const todoId = uuid.v4()
     const createdAt = new Date().toISOString();
-    const s3AttachUrl = attachmentUtils.getAttachmentUrl(toDoId);
+    const s3AttachUrl = attachmentUtils.getAttachmentUrl(todoId);
     const todoItem = {
-        todoId: toDoId,
+        todoId: todoId,
         userId: userId,
         createdAt,
         done: false,
@@ -35,10 +35,10 @@ export async function createTodo(createTodoRequest, userId) {
 }
 
 // Update todo
-export async function updateTodo(userId, toDoId, updateToDoRequest) {
+export async function updateTodo(userId, todoId, updateToDoRequest) {
     logger.info("Call function update todo");
 
-    return await todosAccess.updateTodo(userId, toDoId, updateToDoRequest);
+    return await todosAccess.updateTodo(userId, todoId, updateToDoRequest);
 }
 
 

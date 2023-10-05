@@ -42,13 +42,17 @@ export class TodosAccess {
     // Create toDo
     async createTodo(todo) {
         logger.info("Call function createTodo");
-
+      try {
         await this.dynamoDbClient.put({
             TableName: this.todosTable,
             Item: todo,
         })
 
         return todo
+      } catch (e) {
+	return "Create Error" + e.message
+
+     }
     }
 
     // update Todo
@@ -79,7 +83,7 @@ export class TodosAccess {
 
             return "Update success."
         } catch (e) {
-            return "Update error"
+            return "Update Error" + e.message
         }
     }
 
@@ -98,7 +102,7 @@ export class TodosAccess {
 
             return "Delete success"
         } catch (e) {
-            return "Delete error"
+            return "Delete Error" + e.message
         }
     }
 
