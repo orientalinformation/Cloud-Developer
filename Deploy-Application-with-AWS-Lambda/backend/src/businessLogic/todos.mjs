@@ -41,7 +41,6 @@ export async function updateTodo(userId, todoId, updateToDoRequest) {
     return await todosAccess.updateTodo(userId, todoId, updateToDoRequest);
 }
 
-
 // Delete todo
 export async function deleteTodo(userId, todoId) {
     logger.info("Call function delete todo");
