@@ -2,7 +2,7 @@ import { DynamoDB } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb'
 import { createLogger } from '../utils/logger.mjs'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
-//import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
 // TODO: Implement dataLayer
 const logger = createLogger("TodoAccess");
@@ -112,52 +112,47 @@ export class TodosAccess {
 
         try {
 
-            //const uploadUrl = this.S3.getSignedUrl("putObject", {
-            //  Bucket: this.bucket_name,
-            //Key: todoId,
-            //Expires: Number(url_expiration),
-            //});
-            // const command = new PutObjectCommand({
-            //     Bucket: this.bucket_name,
-            //     Key: todoId
-            // })
-
-            // const url = await getSignedUrl(this.S3, command, {
-            //     expiresIn: parseInt(url_expiration)
-            // })
-
-            // await this.dynamoDbClient
-            //     .update({
-            //         TableName: this.todosTable,
-            //         Key: {
-            //             userId,
-            //             todoId,
-            //         },
-            //         UpdateExpression: "set attachmentUrl = :URL",
-            //         ExpressionAttributeValues: {
-            //             ":URL": url,
-            //         },
-            //         ReturnValues: "UPDATED_NEW",
-            //     })
-
-            // return url
-
-            const uploadUrl = this.S3.getSignedUrl("putObject", {
+            const command = new PutObjectCommand({
                 Bucket: this.bucket_name,
-                Key: todoId,
-                Expires: parseInt(url_expiration)
-            });
-            await this.dynamoDbClient.update({
-                TableName: this.todosTable,
-                Key: { userId, todoId },
-                UpdateExpression: "set attachmentUrl=:URL",
-                ExpressionAttributeValues: {
-                    ":URL": uploadUrl.split("?")[0]
-                },
-                ReturnValues: "UPDATED_NEW"
+                Key: todoId
             })
 
-            return uploadUrl;
+            const url = await getSignedUrl(this.S3, command, {
+                expiresIn: parseInt(url_expiration)
+            })
+
+            await this.dynamoDbClient
+                .update({
+                    TableName: this.todosTable,
+                    Key: {
+                        userId,
+                        todoId,
+                    },
+                    UpdateExpression: "set attachmentUrl = :URL",
+                    ExpressionAttributeValues: {
+                        ":URL": url.split("?")[0],
+                    },
+                    ReturnValues: "UPDATED_NEW",
+                })
+
+            return url
+
+            // const uploadUrl = this.S3.getSignedUrl("putObject", {
+            //     Bucket: this.bucket_name,
+            //     Key: todoId,
+            //     Expires: parseInt(url_expiration)
+            // });
+            // await this.dynamoDbClient.update({
+            //     TableName: this.todosTable,
+            //     Key: { userId, todoId },
+            //     UpdateExpression: "set attachmentUrl=:URL",
+            //     ExpressionAttributeValues: {
+            //         ":URL": uploadUrl.split("?")[0]
+            //     },
+            //     ReturnValues: "UPDATED_NEW"
+            // })
+
+            // return uploadUrl;
 
         } catch (e) {
             return "Error: " + e.message
