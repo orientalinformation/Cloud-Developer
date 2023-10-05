@@ -117,30 +117,47 @@ export class TodosAccess {
             //Key: todoId,
             //Expires: Number(url_expiration),
             //});
-            const command = new PutObjectCommand({
-                Bucket: this.bucket_name,
-                Key: todoId
+            // const command = new PutObjectCommand({
+            //     Bucket: this.bucket_name,
+            //     Key: todoId
+            // })
+
+            // const url = await getSignedUrl(this.S3, command, {
+            //     expiresIn: parseInt(url_expiration)
+            // })
+
+            // await this.dynamoDbClient
+            //     .update({
+            //         TableName: this.todosTable,
+            //         Key: {
+            //             userId,
+            //             todoId,
+            //         },
+            //         UpdateExpression: "set attachmentUrl = :URL",
+            //         ExpressionAttributeValues: {
+            //             ":URL": url,
+            //         },
+            //         ReturnValues: "UPDATED_NEW",
+            //     })
+
+            // return url
+
+            const uploadUrl = await getSignedUrl("putObject", {
+                Bucket: this.bucket,
+                Key: todoId,
+                Expires: parseInt(url_expiration)
+            });
+            await this.dynamoDbClient.update({
+                TableName: this.todosTable,
+                Key: { userId, todoId },
+                UpdateExpression: "set attachmentUrl=:URL",
+                ExpressionAttributeValues: {
+                    ":URL": uploadUrl.split("?")[0]
+                },
+                ReturnValues: "UPDATED_NEW"
             })
 
-            const url = await getSignedUrl(this.S3, command, {
-                expiresIn: parseInt(url_expiration)
-            })
-
-            await this.dynamoDbClient
-                .update({
-                    TableName: this.todosTable,
-                    Key: {
-                        userId,
-                        todoId,
-                    },
-                    UpdateExpression: "set attachmentUrl = :URL",
-                    ExpressionAttributeValues: {
-                        ":URL": url,
-                    },
-                    ReturnValues: "UPDATED_NEW",
-                })
-
-            return url
+            return uploadUrl;
 
         } catch (e) {
             return "Error: " + e.message
